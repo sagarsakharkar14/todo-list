@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        td, th {
+            border: solid ;
+            border-style: inset;
+        }
+
+    </style>
+</head>
+<body>
+
+    {% if request.user.is_authenticated %}
+    <p>{{request.user}}</p>
+    <a href="{% url "logout" %}">Logout</a>
+    {% else %}
+    <a href="{% url "login" %}">Login</a>
+    {% endif %}
+    <hr>
+    <h1>My To Do List</h1>
+    <hr>
+<a href="{% url "task-create" %}">Add Task</a>
+<hr>
+
+<table>
+    <tr>
+        <th>Id</th>
+        <th>To Do</th>
+        <th>description</th>
+        <th>View</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    {% for task in tasks %}
+    <tr>
+        <td>{{task.id}}</td>
+        <td>{{task.title}}</td>
+        <td>{{task.description}}</td>
+        <td><a href="{% url "task" task.id %}"><img 
+            src="https://th.bing.com/th?id=OIP.-ud5Lv_QxVKwGYYezGVa0AHaEV&w=326&h=191&c=8&rs=1&qlt=90&o=6&dpr=1.4&pid=3.1&rm=2" alt="View" width="25" height="15"></a></td>
+        <td><a href="{% url "task-update" task.id %}"><img 
+            src="https://th.bing.com/th/id/OIP.VnFJiQwiFmlNCQGJB69FxgHaHa?w=197&h=197&c=7&r=0&o=5&dpr=1.4&pid=1.7" alt="Edit" width="25" height="25" ></a></td>
+        <td><a href="{% url "task-delete" task.id %}">Delete</a></td>
+    </tr>
+    {% empty %}
+    <h3>No items in List</h3>
+    {% endfor %}
+    
+</table>
+</body>
+</html>
